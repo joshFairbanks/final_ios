@@ -13,6 +13,15 @@
 import SpriteKit
 import GameplayKit
 
+enum Shape{
+    case TRIANGLE
+    case SQUARE
+    case CIRCLE
+    case STAR
+    case RECTANGLE
+    case NIL
+}
+
 class GameScene: SKScene {
   
     var entities = [GKEntity]()
@@ -21,9 +30,11 @@ class GameScene: SKScene {
     private var lastUpdateTime : TimeInterval = 0
     private var label : SKLabelNode?
     private var spinnyNode : SKShapeNode?
+    var correctShape: ShapeObj
     var SHAPE_SIZE = 70
     let PADDING = 20
     var PADDING_TOP = -600
+    var correctShapeIndex = 0
   
   
     var displayWidth: Double = 0.0
@@ -45,7 +56,7 @@ class GameScene: SKScene {
             label.run(SKAction.fadeIn(withDuration: 2.0))
         }
       
-      drawGameRound(level: 9)
+      drawGameRound(level: 11)
       
     }
     
@@ -63,18 +74,33 @@ class GameScene: SKScene {
       
     }
   
-  func makeCircleInPosition(location: CGPoint){
+    func makeShapeInPosition(location: CGPoint, size: Int, correct: Bool){
+        
+     
+        for i in 1...correctShape.shapeCount {
+            var isOuter = true
+            var currentShape = correctShape.outerShape
+            var currentSize = SHAPE_SIZE
+            var currentColor = correctShape.outerShapeFill
+            if(i > 1){
+                isOuter = false
+                currentShape = correctShape.innerShape
+                currentSize -= 20
+            }
+            switch(currentShape){
+            case .CIRCLE:
+                makeCircleInPosition(circleLocation: location, circleSize: currentSize, fill: <#T##UIColor#>, stroke: <#T##UIColor#>)
+            default:
+                print("makeShapeInPosition out of bounds")
+                
+            }
+        }
     
-    let Circle = SKShapeNode(circleOfRadius: CGFloat(SHAPE_SIZE) ) // Size of Circle = Radius setting.
-    Circle.position = location
-    Circle.name = "defaultCircle"
-    Circle.strokeColor = SKColor.green
-    Circle.glowWidth = 4.0
-    Circle.fillColor = SKColor.orange
-    self.addChild(Circle)
     
-
-    let length: CGFloat = CGFloat(50)
+    
+    
+        
+    let length: CGFloat = CGFloat(size-20)
     
 
     var points = [CGPoint(x:length, y:-length / 2.0),
@@ -90,22 +116,79 @@ class GameScene: SKScene {
     Triangle.position = location
 
     self.addChild(Triangle)
+        
+        if(correct){
+            print("correct")
+        }
     
-    var custom_points = [location,
-                         CGPoint(x: Int(location.x) + randInt(l:-50,u:50), y: Int(location.y) + randInt(l:-50,u:50)),
-                         CGPoint(x: Int(location.x) + randInt(l:-50,u:50), y: Int(location.y) + randInt(l:-50,u:50)),
-                         CGPoint(x: Int(location.x) + randInt(l:-50,u:50), y: Int(location.y) + randInt(l:-50,u:50)),
-                         location]
-  
-    let splineShapeNode = SKShapeNode(splinePoints: &custom_points,
-                                      count: custom_points.count)
-    
-    splineShapeNode.fillColor = UIColor.black
-    
-    self.addChild(splineShapeNode)
     
     
   }
+    
+    
+    
+    
+    func makeCircleInPosition(circleLocation: CGPoint, circleSize: Int, fill: UIColor, stroke: UIColor){
+        let Circle = SKShapeNode(circleOfRadius: CGFloat(circleSize) ) // Size of Circle = Radius setting.
+        Circle.position = circleLocation
+        Circle.name = "defaultCircle"
+        Circle.strokeColor = SKColor.green
+        Circle.glowWidth = 4.0
+        Circle.fillColor = SKColor.orange
+        self.addChild(Circle)
+    }
+    
+    func getRandomShape() -> Shape {
+        var rShape:Shape
+        switch (randInt(l: 1, u: 2)){
+        case 1:
+            rShape = Shape.CIRCLE
+        case 2:
+            rShape = Shape.TRIANGLE
+        default:
+            print("random shape index was out of bounds!")
+        }
+        return rShape
+    }
+    
+    func getRandomColor() -> UIColor {
+        var color: UIColor
+        switch (randInt(l: 1, u: 15)){
+        case 1:
+            color = UIColor.black
+        case 2:
+            color = UIColor.blue
+        case 3:
+            color = UIColor.brown
+        case 4:
+            color = UIColor.clear
+        case 5:
+            color = UIColor.cyan
+        case 6:
+            color = UIColor.darkGray
+        case 7:
+            color = UIColor.gray
+        case 8:
+            color = UIColor.green
+        case 9:
+            color = UIColor.lightGray
+        case 10:
+            color = UIColor.magenta
+        case 11:
+            color = UIColor.orange
+        case 12:
+            color = UIColor.purple
+        case 13:
+            color = UIColor.red
+        case 14:
+            color = UIColor.white
+        case 15:
+            color = UIColor.yellow
+        default:
+            print("color index out of bounds!")
+        }
+        return color
+    }
   
   func randInt(l: Int,u: Int) -> Int {
     //10, 30
@@ -113,51 +196,66 @@ class GameScene: SKScene {
   }
   
   func drawGameRound(level: Int){
+    var rShapeCount = randInt(l: 1, u: 2)
+   
     
+    correctShape = ShapeObj(shapeCount: rShapeCount, outerShape: getRandomShape(), innerShape: getRandomShape(), innerShapeFill: getRandomColor(), innerShapeStroke: getRandomColor(), outerShapeFill: getRandomColor(), outerShapeStroke: getRandomColor() )
     
-    var rows = 0;
+    var ySpace = 0;
+    let rows = 4;
     var columns = 0;
     
     if level <= 3 {
-      rows = 3
       columns = 3
-      PADDING_TOP = -200
+      ySpace = -300
     } else if level <= 6 {
-      rows = 5
-      columns = 3
-      PADDING_TOP = -300
+      columns = 4
+      ySpace = -300
     }else if level <= 9 {
-      rows = 5
-      columns = 4
-      PADDING_TOP = -400
+      columns = 5
+      ySpace = -560
     }else if level >= 10 {
-      rows = 6
-      columns = 4
-      PADDING_TOP = -600
+      columns = 5
+      ySpace = -560
     }
 
-    var ySpace = -280
+    correctShapeIndex = randInt(l: 0, u: columns * rows)
+    var counter = 0
+    
     var drawIndex:Int = -300
      for col in 1...columns {
       
       for row in 1...4{
-     
-      
         
+      
+        if(counter == correctShapeIndex){
+            makeShapeInPosition(location: CGPoint(x: 240, y: 420), size: SHAPE_SIZE, correct:true)
+        }else{
         let xSpace = drawIndex
         
         print("Row: \(row) y: \(ySpace) x: \(xSpace)")
-        makeCircleInPosition(location: CGPoint(x: xSpace, y: (ySpace)))
+            makeShapeInPosition(location: CGPoint(x: xSpace, y: (ySpace)), size: SHAPE_SIZE, correct:false)
+        }
         drawIndex += 200
         
-        
+        counter+=1
       }
       ySpace += 200
       drawIndex = -300;
     }
+    
+    
 
     
   }
+    
+    
+    
+    
+    
+    
+    
+    
   /*
   func convert(point: CGPoint)->CGPoint {
     return self.view!.convert(CGPoint(x: point.x, y:self.view!.frame.height-point.y), to:self)

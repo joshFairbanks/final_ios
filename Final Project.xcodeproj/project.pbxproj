@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F079658206C5211001BF321 /* ShapeObj.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F079657206C5211001BF321 /* ShapeObj.swift */; };
 		C8FE7B8F206280B000E1EFA9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8FE7B8E206280B000E1EFA9 /* AppDelegate.swift */; };
 		C8FE7B91206280B000E1EFA9 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C8FE7B90206280B000E1EFA9 /* GameScene.sks */; };
 		C8FE7B93206280B100E1EFA9 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = C8FE7B92206280B000E1EFA9 /* Actions.sks */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F079657206C5211001BF321 /* ShapeObj.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeObj.swift; sourceTree = "<group>"; };
 		C8FE7B8B206280B000E1EFA9 /* Final Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Final Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8FE7B8E206280B000E1EFA9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C8FE7B90206280B000E1EFA9 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -63,8 +65,8 @@
 			isa = PBXGroup;
 			children = (
 				C8FE7B8E206280B000E1EFA9 /* AppDelegate.swift */,
-				C8FE7B90206280B000E1EFA9 /* GameScene.sks */,
 				C8FE7B92206280B000E1EFA9 /* Actions.sks */,
+				C8FE7B90206280B000E1EFA9 /* GameScene.sks */,
 				C8FE7B94206280B100E1EFA9 /* GameScene.swift */,
 				C8FE7B96206280B100E1EFA9 /* GameViewController.swift */,
 				C8FE7B98206280B100E1EFA9 /* Main.storyboard */,
@@ -72,6 +74,7 @@
 				C8FE7B9D206280B100E1EFA9 /* LaunchScreen.storyboard */,
 				C8FE7BA0206280B100E1EFA9 /* Info.plist */,
 				C8FE7BA6206282FA00E1EFA9 /* GameObject.swift */,
+				3F079657206C5211001BF321 /* ShapeObj.swift */,
 			);
 			path = "Final Project";
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			files = (
 				C8FE7BA7206282FA00E1EFA9 /* GameObject.swift in Sources */,
 				C8FE7B95206280B100E1EFA9 /* GameScene.swift in Sources */,
+				3F079658206C5211001BF321 /* ShapeObj.swift in Sources */,
 				C8FE7B97206280B100E1EFA9 /* GameViewController.swift in Sources */,
 				C8FE7B8F206280B000E1EFA9 /* AppDelegate.swift in Sources */,
 			);
